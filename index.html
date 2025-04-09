@@ -1,17 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Live Stream from ESP32-CAM</title>
+  <title>ESP32-CAM Stream</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <h2>ESP32-CAM Live</h2>
-  <img id="stream" width="640">
+  <h1>Video Stream</h1>
+  <img id="frame" alt="ESP32 Stream Frame">
+  
   <script>
-    const ws = new WebSocket('wss://your-server.com/ws'); // Địa chỉ server WebSocket
+    const socket = new WebSocket("wss://0194-171-224-178-50.ngrok-free.app");
+    socket.binaryType = "arraybuffer";
 
-    ws.onmessage = (event) => {
-      const img = document.getElementById('stream');
-      img.src = 'data:image/jpeg;base64,' + event.data;
+    socket.onmessage = function(event) {
+      const blob = new Blob([event.data], { type: "image/jpeg" });
+      document.getElementById("frame").src = URL.createObjectURL(blob);
+    };
+
+    socket.onerror = function(err) {
+      console.error("WebSocket Error:", err);
+    };
+
+    socket.onclose = () => {
+      console.log("❌ WebSocket closed");
     };
   </script>
 </body>

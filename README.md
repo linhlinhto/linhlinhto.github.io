@@ -9,7 +9,7 @@
   <img id="frame" alt="ESP32 Stream Frame">
   
   <script>
-    const socket = new WebSocket("wss://b77b-171-224-178-50.ngrok-free.app");
+    const socket = new WebSocket("wss://0194-171-224-178-50.ngrok-free.app");
     socket.binaryType = "arraybuffer";
 
     socket.onmessage = function(event) {
